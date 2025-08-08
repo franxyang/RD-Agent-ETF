@@ -1,24 +1,30 @@
+# 新增代码：配置ETF数据源 (原配置已注释保留)
 qlib_init:
-    provider_uri: "~/.qlib/qlib_data/cn_data"
+    # provider_uri: "~/.qlib/qlib_data/cn_data"  # 原官方数据源
+    provider_uri: "/Users/handsomedoge/Documents/CITIC_quant/qlib_etf_data_final"
     region: cn
 
-market: &market csi300
-benchmark: &benchmark SH000300
+# market: &market csi300  # 原CSI300
+# benchmark: &benchmark SH000300  # 原基准
+market: &market all  # 使用所有ETF数据
+benchmark: &benchmark 000852.csi  # 中证1000作为基准
 
 data_handler_config: &data_handler_config
-    start_time: 2008-01-01
-    end_time: 2020-08-01
-    fit_start_time: 2008-01-01
-    fit_end_time: 2014-12-31
+    # 新增代码：调整时间范围匹配ETF数据 (2015-2025)
+    start_time: 2015-01-01  # 原: 2008-01-01
+    end_time: 2025-07-10    # 修改：从2025-07-15改为2025-07-10，避免IndexError
+    fit_start_time: 2015-01-01  # 原: 2008-01-01  
+    fit_end_time: 2020-12-31    # 原: 2014-12-31
     instruments: *market
     infer_processors:
-        - class: FilterCol
-          kwargs:
-              fields_group: feature
-              col_list: ["RESI5", "WVMA5", "RSQR5", "KLEN", "RSQR10", "CORR5", "CORD5", "CORR10", 
-                            "ROC60", "RESI10", "VSTD5", "RSQR60", "CORR60", "WVMA60", "STD5", 
-                            "RSQR20", "CORD60", "CORD10", "CORR20", "KLOW"
-                        ]
+        # 新增代码：注释掉FilterCol，因为ETF数据只有基础OHLCV特征，没有这些高级特征
+        # - class: FilterCol
+        #   kwargs:
+        #       fields_group: feature
+        #       col_list: ["RESI5", "WVMA5", "RSQR5", "KLEN", "RSQR10", "CORR5", "CORD5", "CORR10", 
+        #                     "ROC60", "RESI10", "VSTD5", "RSQR60", "CORR60", "WVMA60", "STD5", 
+        #                     "RSQR20", "CORD60", "CORD10", "CORR20", "KLOW"
+        #                 ]
         - class: RobustZScoreNorm
           kwargs:
               fields_group: feature
@@ -42,8 +48,9 @@ port_analysis_config: &port_analysis_config
             topk: 50
             n_drop: 5
     backtest:
-        start_time: 2017-01-01
-        end_time: 2020-08-01
+        # 新增代码：调整回测时间段匹配ETF数据  
+        start_time: 2023-01-01  # 原: 2017-01-01
+        end_time: 2025-07-10    # 修改：从2025-07-15改为2025-07-10，避免IndexError
         account: 100000000
         benchmark: *benchmark
         exchange_kwargs:
@@ -71,13 +78,15 @@ task:
         module_path: qlib.data.dataset
         kwargs:
             handler:
+                # 新增代码：使用Alpha158处理器，更成熟稳定
                 class: Alpha158
                 module_path: qlib.contrib.data.handler
                 kwargs: *data_handler_config
             segments:
-                train: [2008-01-01, 2014-12-31]
-                valid: [2015-01-01, 2016-12-31]
-                test: [2017-01-01, 2020-08-01]
+                # 新增代码：调整训练测试时间段匹配ETF数据，预留buffer避免越界
+                train: [2015-01-01, 2020-12-31]  # 原: [2008-01-01, 2014-12-31]
+                valid: [2021-01-01, 2022-12-31]   # 原: [2015-01-01, 2016-12-31] 
+                test: [2023-01-01, 2025-07-10]    # 修改：从2025-07-15改为2025-07-10，避免IndexError
     record: 
         - class: SignalRecord
           module_path: qlib.workflow.record_temp

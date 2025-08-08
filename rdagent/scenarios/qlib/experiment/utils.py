@@ -140,6 +140,39 @@ def get_file_desc(p: Path, variable_list=[]) -> str:
                 content=content,
             )
 
+    # 新增代码：支持qlib数据目录结构
+    elif p.name in ["calendars", "instruments", "features"]:
+        if p.name == "calendars":
+            # 读取交易日历文件
+            day_file = p / "day.txt"
+            if day_file.exists():
+                with open(day_file) as f:
+                    lines = f.readlines()
+                    total_days = len(lines)
+                    sample_days = lines[:3] + ["...\n"] + lines[-3:]
+                    content = f"Trading calendar with {total_days} trading days\n"
+                    content += "Sample dates:\n" + "".join(sample_days)
+            else:
+                content = "Trading calendar directory"
+        elif p.name == "instruments":
+            # 读取instruments文件夹内容
+            content = "Instrument lists directory containing:\n"
+            for file in p.glob("*.txt"):
+                with open(file) as f:
+                    lines = f.readlines()
+                    content += f"- {file.name}: {len(lines)} instruments\n"
+        elif p.name == "features":
+            # 读取features文件夹内容
+            feature_files = list(p.glob("*.bin"))
+            content = f"Features directory containing {len(feature_files)} binary feature files\n"
+            content += "This directory stores precomputed features for each instrument"
+        
+        return JJ_TPL.render(
+            file_name=p.name,
+            type_desc="Qlib Data Directory",
+            content=content,
+        )
+
     else:
         raise NotImplementedError(
             f"file type {p.name} is not supported. Please implement its description function.",

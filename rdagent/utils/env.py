@@ -298,8 +298,14 @@ class Env(Generic[ASpecificEnvConf]):
             chmod_cmd += ")"
             return chmod_cmd
 
+        # 新增代码：兼容macOS和其他没有timeout命令的系统
+        # 使用条件判断来检测timeout命令是否存在，如果不存在则直接运行命令
         entry_add_timeout = (
-            f"/bin/sh -c 'timeout --kill-after=10 {self.conf.running_timeout_period} {entry}; "
+            f"/bin/sh -c 'if command -v timeout >/dev/null 2>&1; then "
+            + f"timeout --kill-after=10 {self.conf.running_timeout_period} {entry}; "
+            + "else "
+            + f"{entry}; "
+            + "fi; "
             + "entry_exit_code=$?; "
             + (
                 f"{_get_chmod_cmd(self.conf.mount_path)}; "

@@ -1,0 +1,42 @@
+{
+  "env": {
+    "BASH_MAX_TIMEOUT_MS": "1000000",
+    "BASH_DEFAULT_TIMEOUT_MS": "1000000"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(rdagent fin_factor:*)",
+      "Bash(find:*)",
+      "Bash(python:*)",
+      "Bash(source .env)",
+      "Bash(timeout:*)",
+      "Bash(source:*)",
+      "Bash(/opt/anaconda3/envs/rdagent/bin/python3:*)",
+      "WebFetch(domain:qlib.readthedocs.io)",
+      "WebFetch(domain:github.com)",
+      "Bash(mkdir:*)",
+      "Bash(grep:*)",
+      "Bash(rm:*)",
+      "Bash(brew install:*)",
+      "Bash(rdagent:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(test:*)",
+      "Bash(conda list:*)",
+      "Bash(pip install:*)",
+      "Bash(pip show:*)",
+      "Bash(cp:*)",
+      "Bash(tree:*)",
+      "Bash(echo \"=== RD-Agent根目录清理后的状态 ===\" ls -la /Users/handsomedoge/Documents/CITIC_quant/RD-Agent/)",
+      "Bash(git checkout:*)",
+      "Bash(cat:*)",
+      "Bash(kill:*)",
+      "Bash(docker:*)",
+      "Bash(true)",
+      "Bash(chmod:*)",
+      "Bash(./quick_upload.sh)"
+    ],
+    "deny": []
+  }
+}

@@ -178,3 +178,11 @@ rdagent/app/benchmark/factor/example.json
 # UI Server resources
 videos/
 static/
+# 敏感文件排除
+.env
+.env.*
+!.env.example
+!.env.template
+*.key
+*.pem
+api_keys.txt

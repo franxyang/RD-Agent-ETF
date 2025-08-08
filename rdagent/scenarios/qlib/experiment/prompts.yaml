@@ -8,6 +8,14 @@ qlib_factor_background: |-
   The factor is a characteristic or variable used in quant investment that can help explain the returns and risks of a portfolio or a single asset. Factors are used by investors to identify and exploit sources of excess returns, and they are central to many quantitative investment strategies.
   Each number in the factor represents a physics value to an instrument on a day.
   User will train a model to predict the next several days return based on the factor values of the previous days.
+  
+  IMPORTANT: For ETF trading, consider these factor categories:
+  1. Price-based: momentum, mean reversion, trend following
+  2. Volume-based: volume momentum, volume volatility, VWAP deviation
+  3. Volatility-based: realized volatility, volatility ratio, volatility trend
+  4. Technical indicators: RSI, MACD, Bollinger Bands, Stochastic
+  5. Cross-sectional: relative strength, sector rotation, pair trading signals
+  
   The factor is defined in the following parts:
   1. Name: The name of the factor.
   2. Description: The description of the factor.
@@ -15,6 +23,8 @@ qlib_factor_background: |-
   4. Variables: The variables or functions used in the formulation of the factor.
   The factor might not provide all the parts of the information above since some might not be applicable.
   Please specifically give all the hyperparameter in the factors like the window size, look back period, and so on. One factor should statically defines one output with a static source data. For example, last 10 days momentum and last 20 days momentum should be two different factors.
+  
+  DIVERSITY REQUIREMENT: Each hypothesis should explore DIFFERENT factor categories. Avoid repeating similar factors like only momentum or only volatility.
 
 qlib_factor_interface: |-
   Your python code should follow the interface to better interact with the user's system.
@@ -150,7 +160,7 @@ qlib_factor_from_report_rich_style_description : |-
 qlib_factor_experiment_setting: |-
   | Dataset 📊 | Model 🤖    | Factors 🌟       | Data Split  🧮                                   |
   |---------|----------|---------------|-------------------------------------------------|
-  | CSI300  | LGBModel | Alpha158 Plus | Train: 2008-01-01 to 2014-12-31 <br> Valid: 2015-01-01 to 2016-12-31 <br> Test &nbsp;: 2017-01-01 to 2020-08-01 |
+  | ETF Data | LGBModel | Alpha360      | Train: 2015-01-01 to 2020-12-31 <br> Valid: 2021-01-01 to 2022-12-31 <br> Test &nbsp;: 2023-01-01 to 2025-07-15 |
 
 
 qlib_model_background: |-
@@ -239,4 +249,4 @@ qlib_model_rich_style_description: |-
 qlib_model_experiment_setting: |-
   | Dataset 📊 | Model 🤖    | Factors 🌟       | Data Split  🧮                                   |
   |---------|----------|---------------|-------------------------------------------------|
-  | CSI300  | RDAgent-dev | 20 factors (Alpha158)  | Train: 2008-01-01 to 2014-12-31 <br> Valid: 2015-01-01 to 2016-12-31 <br> Test &nbsp;: 2017-01-01 to 2020-08-01 |
+  | ETF Data | RDAgent-dev | 20 factors (Alpha360)  | Train: 2015-01-01 to 2020-12-31 <br> Valid: 2021-01-01 to 2022-12-31 <br> Test &nbsp;: 2023-01-01 to 2025-07-15 |

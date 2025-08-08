@@ -16,8 +16,7 @@ data_handler_config: &data_handler_config
     fit_start_time: 2015-01-01  # 原: 2008-01-01  
     fit_end_time: 2020-12-31    # 原: 2014-12-31
     instruments: *market
-    # 新增代码：移除data_loader配置，Alpha158不需要
-    # data_loader已移除，使用Alpha158默认配置
+    # 移除data_loader配置，Alpha158不需要
     infer_processors:
         - class: RobustZScoreNorm
           kwargs:

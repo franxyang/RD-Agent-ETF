@@ -188,6 +188,9 @@ class FBWorkspace(Workspace):
                 os.symlink(data_file_path, workspace_data_file_path)
             if platform.system() == "Windows":
                 os.link(data_file_path, workspace_data_file_path)
+            # 新增代码：修复macOS系统下的文件链接问题
+            if platform.system() == "Darwin":  # macOS
+                os.symlink(data_file_path, workspace_data_file_path)
 
     DEL_KEY = "__DEL__"
 
