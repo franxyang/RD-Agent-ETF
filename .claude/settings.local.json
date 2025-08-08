@@ -35,7 +35,9 @@
       "Bash(docker:*)",
       "Bash(true)",
       "Bash(chmod:*)",
-      "Bash(./quick_upload.sh)"
+      "Bash(./quick_upload.sh)",
+      "Bash(git push:*)",
+      "Bash(git config:*)"
     ],
     "deny": []
   }
