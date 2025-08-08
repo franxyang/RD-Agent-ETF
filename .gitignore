@@ -186,3 +186,4 @@ static/
 *.key
 *.pem
 api_keys.txt
+rdagent/scenarios/qlib/experiment/factor_data_template/daily_pv_all.h5
